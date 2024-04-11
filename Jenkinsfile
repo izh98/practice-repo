@@ -48,7 +48,7 @@ pipeline {
                 script {
                     echo "deploying"
                     echo "deploying version ${params.VERSION}"
-                    echi "deploying to ${ENV}"
+                    echo "deploying to ${ENV}"
                     //gv.deployApp()
                 }
             }
