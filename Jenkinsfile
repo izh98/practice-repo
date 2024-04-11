@@ -17,8 +17,8 @@ pipeline {
         stage("build jar") {
             steps {
                 script {
-                   //echo "building jar"
-                   gv.buildJar()
+                   echo "building jar"
+                   //gv.buildJar()
                 }
             }
         }
@@ -31,17 +31,25 @@ pipeline {
             }
             steps {
                 script {
-                    //echo "building image"
-                    gv.buildImage()
+                    echo "building image"
+                    //gv.buildImage()
                 }
             }
         }
         stage("deploy") {
+            input{
+                message "Select the environment to deploy to"
+                ok "Done"
+                parameters {
+                    choice(name: 'ENV', choices: ['DEV', 'Staging', 'Prod'], description: '')
+                }
+            }
             steps {
                 script {
-                    //echo "deploying"
-                    //echo "deploying version ${params.VERSION}"
-                    gv.deployApp()
+                    echo "deploying"
+                    echo "deploying version ${params.VERSION}"
+                    echi "deploying to ${ENV}"
+                    //gv.deployApp()
                 }
             }
         }
