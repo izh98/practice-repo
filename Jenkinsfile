@@ -10,14 +10,21 @@ pipeline {
                booleanParam(name: 'executeTests', defaultValue: true, description: '')
     }
     stages {
-        stage("init") {
+        stage("test") {
             steps {
                 script {
                     gv = load "script.groovy"
+                    echo "Testing the app"
+                    echo "Executing pipeline for branch $BRANCH_NAME"
                 }
             }
         }
         stage("build jar") {
+            when {
+                expression {
+                    BRANCH_NAME == 'main'
+                }
+            }
             steps {
                 script {
                    //echo "building jar"
@@ -26,7 +33,11 @@ pipeline {
             }
         }
         stage("build image") {
-
+            when {
+                expression {
+                    BRANCH_NAME == 'main'
+                }
+            }
             when {
                 expression {
                     params.executeTests
@@ -40,6 +51,11 @@ pipeline {
             }
         }
         stage("deploy") {
+            when{
+                expression{
+                    BRANCH_NAME == 'main'
+                }
+            }
             input{
                 message "Select the environment to deploy to"
                 ok "Done"
