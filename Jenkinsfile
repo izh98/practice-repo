@@ -38,11 +38,6 @@ pipeline {
                     BRANCH_NAME == 'main'
                 }
             }
-            when {
-                expression {
-                    params.executeTests
-                }
-            }
             steps {
                 script {
                     //echo "building image"
