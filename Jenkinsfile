@@ -2,8 +2,11 @@ def gv
 
 pipeline {
     agent any
+    tools {
+        maven 'maven-3.9.6'
+    }
     parameters {
-        choice(name: 'VERSION', choices: ['1.0', '1.1'], description: '')
+        choice(name: 'VERSION', choices: ['1.0', '1.1', '1.2'], description: '')
                booleanParam(name: 'executeTests', defaultValue: true, description: '')
     }
     stages {
@@ -37,11 +40,21 @@ pipeline {
             }
         }
         stage("deploy") {
+            input{
+                message "Select the environment to deploy to"
+                ok "Done"
+                parameters {
+                    choice(name: 'ONE', choices: ['DEV', 'Staging', 'Prod'], description: '')
+                    choice(name: 'TWO', choices: ['DEV', 'Staging', 'Prod'], description: '')
+                }
+            }
             steps {
                 script {
-                    //echo "deploying"
-                    //echo "deploying version ${params.VERSION}"
-                    gv.deployApp()
+                    echo "deploying"
+                    echo "deploying version ${params.VERSION}"
+                    echo "deploying to ${ONE}"
+                    echo "deploying to ${TWO}"
+                    //gv.deployApp()
                 }
             }
         }
