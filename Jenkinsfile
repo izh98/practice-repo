@@ -1,3 +1,5 @@
+#!/usr/bin/env groovy
+@Library('jenkins-shared-library')
 def gv
 
 pipeline {
@@ -10,7 +12,7 @@ pipeline {
                booleanParam(name: 'executeTests', defaultValue: true, description: '')
     }
     stages {
-        stage("test") {
+        stage("init") {
             steps {
                 script {
                     gv = load "script.groovy"
@@ -33,11 +35,6 @@ pipeline {
             }
         }
         stage("build image") {
-            when {
-                expression {
-                    BRANCH_NAME == 'main'
-                }
-            }
             steps {
                 script {
                     //echo "building image"
@@ -46,11 +43,6 @@ pipeline {
             }
         }
         stage("deploy") {
-            when{
-                expression{
-                    BRANCH_NAME == 'main'
-                }
-            }
             input{
                 message "Select the environment to deploy to"
                 ok "Done"
