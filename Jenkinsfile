@@ -1,5 +1,5 @@
-#!/usr/bin/env groovy
-@Library('jenkins-shared-library')
+// #!/usr/bin/env groovy
+// @Library('jenkins-shared-library')
 def gv
 
 pipeline {
@@ -7,10 +7,10 @@ pipeline {
     tools {
         maven 'maven-3.9.6'
     }
-    parameters {
-        choice(name: 'VERSION', choices: ['1.0', '1.1', '1.2'], description: '')
-               booleanParam(name: 'executeTests', defaultValue: true, description: '')
-    }
+    // parameters {
+     //   choice(name: 'VERSION', choices: ['1.0', '1.1', '1.2'], description: '')
+       //        booleanParam(name: 'executeTests', defaultValue: true, description: '')
+    // }
     stages {
         stage("init") {
             steps {
@@ -60,7 +60,7 @@ pipeline {
             steps {
                 script {
                     echo "deploying"
-                    echo "deploying version ${params.VERSION}"
+                    echo "deploying version ${env.IMAGE_NAME}"
                     echo "deploying to ${ONE}"
                     echo "deploying to ${TWO}"
                     //gv.deployApp()
